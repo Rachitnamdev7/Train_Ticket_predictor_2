@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Train</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Select Train</h1>
+
+    {% if error %}
+      <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if trains %}
+      <form action="/passenger_details" method="POST">
+        <input type="hidden" name="source" value="{{ source }}">
+        <input type="hidden" name="destination" value="{{ destination }}">
+        <input type="hidden" name="journey_date" value="{{ journey_date }}">
+
+        <div class="form-group">
+          <label for="train">Choose a Train:</label>
+          <select name="train_no" required>
+            {% for train in trains %}
+              <option value="{{ train.train_no }}">{{ train.train_no }} - {{ train.train_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <input type="hidden" name="train_name" id="train_name_hidden">
+
+        <button type="submit" onclick="setTrainName()">Continue</button>
+      </form>
+    {% else %}
+      <p>No trains found for the selected route and date.</p>
+    {% endif %}
+  </div>
+
+  <script>
+    function setTrainName() {
+      const dropdown = document.querySelector('select[name="train_no"]');
+      const selectedText = dropdown.options[dropdown.selectedIndex].text;
+      const name = selectedText.split(' - ').slice(1).join(' - ').trim();
+      document.getElementById("train_name_hidden").value = name;
+    }
+  </script>
+</body>
+</html>

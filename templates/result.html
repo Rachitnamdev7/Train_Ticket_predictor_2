@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Prediction Result</title>
+  <link rel="stylesheet" href="/static/result-style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Confirmation Prediction Results</h1>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% else %}
+      {% for item in predictions %}
+        <div class="date-block">
+          <h2>Date: {{ item.date }}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Passenger</th>
+                <th>WL</th>
+                <th>Confirmation %</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for p in item.results %}
+              <tr>
+                <td>Passenger {{ p.passenger }}</td>
+                <td>{{ p.wl }}</td>
+                <td>{{ p.percent }}%</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</body>
+</html>
